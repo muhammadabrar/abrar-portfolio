@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Muhammad Abrar — Software Engineer Resume (2 Pages)</title>
+    <style>
+      :root {
+        --ink: #111827;
+        --muted: #4b5563;
+        --line: #d1d5db;
+        --accent: #0f766e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.38;
+        background: #e5e7eb;
+      }
+
+      .hint {
+        max-width: 8.5in;
+        margin: 16px auto 8px;
+        padding: 0 8px;
+        color: #6b7280;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .page {
+        width: 8.5in;
+        height: 11in;
+        margin: 16px auto;
+        padding: 0.55in 0.65in;
+        background: #fff;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .page-footer {
+        margin-top: auto;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 8.5pt;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 22pt;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+      }
+
+      .title {
+        margin: 4px 0 0;
+        color: var(--accent);
+        font-size: 11.5pt;
+        font-weight: 600;
+      }
+
+      .contact {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 9.5pt;
+      }
+
+      .contact a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .summary {
+        margin: 12px 0 0;
+      }
+
+      h2 {
+        margin: 16px 0 8px;
+        padding-bottom: 3px;
+        padding-top: 16px;
+        border-bottom: 1.5px solid var(--ink);
+        font-size: 12pt;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .page-continues h2:first-child {
+        margin-top: 0;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 5px 12px;
+      }
+
+      .skills-grid dt {
+        font-weight: 700;
+      }
+
+      .skills-grid dd {
+        margin: 0;
+      }
+
+      .job-head,
+      .edu-head,
+      .proj-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+      }
+
+      .job-head strong,
+      .proj-head strong,
+      .edu-head strong {
+        font-size: 11pt;
+      }
+
+      .meta {
+        color: var(--muted);
+        white-space: nowrap;
+        font-size: 9.5pt;
+      }
+
+      .role {
+        margin: 2px 0 5px;
+        font-style: italic;
+        color: var(--muted);
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1.15em;
+      }
+
+      li {
+        margin-bottom: 4px;
+      }
+
+      .job + .job {
+        margin-top: 14px;
+      }
+
+      .proj + .proj {
+        margin-top: 12px;
+      }
+
+      .proj-desc {
+        margin: 0 0 4px;
+        color: var(--muted);
+        font-size: 9.5pt;
+      }
+
+      .page2-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 4px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .page2-header strong {
+        font-size: 11pt;
+      }
+
+      .page2-header span {
+        color: var(--muted);
+        font-size: 9pt;
+      }
+
+      @media print {
+        @page {
+          size: Letter;
+          margin: 0;
+        }
+
+        body {
+          background: #fff;
+        }
+
+        .hint {
+          display: none;
+        }
+
+        .page {
+          margin: 0;
+          box-shadow: none;
+          page-break-after: always;
+          break-after: page;
+        }
+
+        .page:last-child {
+          page-break-after: auto;
+          break-after: auto;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p class="hint">
+      2-page resume · Open in browser → Print → Save as PDF · Paper: Letter · Margins: None
+    </p>
+
+    <!-- PAGE 1 -->
+    <main class="page">
+      <header>
+        <h1>Muhammad Abrar</h1>
+        <p class="title">Software Engineer · Full Stack · Agentic AI / Automation</p>
+        <p class="contact">
+          Pakistan (Remote) ·
+          <a href="tel:+923178303217">+92 317 830 3217</a> ·
+          <a href="mailto:abrarmuhammad100@gmail.com">abrarmuhammad100@gmail.com</a> ·
+          <a href="https://replymymail.com">ReplyMyMail</a> ·
+          <a href="https://ar-4u.com">AR-4U</a>
+        </p>
+        <p class="summary">
+          Software Engineer with 3+ years shipping production web products and AI automation:
+          APIs, React/Next.js UIs, n8n agentic workflows, RAG pipelines, WebAR, and operational
+          systems. Experienced collaborating remotely with product teams under tight delivery
+          timelines.
+        </p>
+      </header>
+
+      <section>
+        <h2>Technical Skills</h2>
+        <dl class="skills-grid">
+          <dt>Languages</dt>
+          <dd>JavaScript, TypeScript, Python, PHP, C++</dd>
+          <dt>Frontend</dt>
+          <dd>React, Next.js, HTML5, CSS3, Tailwind CSS, Redux, Three.js, model-viewer</dd>
+          <dt>Backend</dt>
+          <dd>Node.js, Express, FastAPI, Flask, Django, REST APIs, JWT auth</dd>
+          <dt>Data</dt>
+          <dd>MongoDB, PostgreSQL, MySQL, SQLite, Redis, Prisma ORM</dd>
+          <dt>AI / Automation</dt>
+          <dd>
+            n8n, RAG, Agentic AI, LLM integrations, OCR pipelines, embeddings/search, web
+            scraping, Selenium, BeautifulSoup
+          </dd>
+          <dt>Tools</dt>
+          <dd>Git, Strapi, Electron, Docker, AWS, Vercel, Netlify, Figma</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>Experience</h2>
+
+        <div class="job">
+          <div class="job-head">
+            <strong>Speedy Brilliant (HK) Ltd. — AR-4U / ReplyMyMail</strong>
+            <span class="meta">Dec 2022 – Present</span>
+          </div>
+          <p class="role">Full Stack Software Developer · Remote (Hong Kong)</p>
+          <ul>
+            <li>
+              Own end-to-end delivery of company web applications—Node/Express APIs, React/Next.js
+              frontends, and UI improvements used by customers in production.
+            </li>
+            <li>
+              Improve performance and cost by optimizing API payloads, frontend rendering, database
+              access patterns, and SEO for marketing and product surfaces.
+            </li>
+            <li>
+              Build AI product features: LinkedIn comment generation, email-reply automation
+              (ReplyMyMail), and document OCR/embedding workflows for ops teams.
+            </li>
+            <li>
+              Design and maintain WebAR experiences (Three.js / Google model-viewer) and customer
+              panels for 3D asset management on AR-4U.
+            </li>
+            <li>
+              Deliver web scraping and data pipelines (Python/Selenium) with admin tooling for lead
+              collection and content operations.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <strong>Futurenostic</strong>
+            <span class="meta">Jan 2025 – Mar 2025</span>
+          </div>
+          <p class="role">Software Engineer · Remote · 3 months</p>
+          <ul>
+            <li>
+              Built and maintained agentic AI automation workflows in n8n for content research,
+              drafting, and multi-channel publishing.
+            </li>
+            <li>
+              Implemented RAG-style retrieval steps (topic/context fetch from structured sources)
+              so generation stages used grounded, up-to-date inputs.
+            </li>
+            <li>
+              Integrated branching logic across Google Sheets/Docs and publishing targets
+              (e.g. Medium, LinkedIn) to reduce manual content ops.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="page-footer">
+        <span>Muhammad Abrar · Software Engineer</span>
+        <span>Page 1 of 2</span>
+      </div>
+    </main>
+
+    <!-- PAGE 2 -->
+    <main class="page page-continues">
+      <div class="page2-header">
+        <strong>Muhammad Abrar</strong>
+        <span>Software Engineer · Continued</span>
+      </div>
+
+      <section>
+        <h2>Selected Projects</h2>
+
+        <div class="proj">
+          <div class="proj-head">
+            <strong>n8n Content Creation Flow (Mako)</strong>
+            <span class="meta">n8n · RAG · Agentic AI</span>
+          </div>
+          <p class="proj-desc">Agentic publishing pipeline for research → draft → distribute</p>
+          <ul>
+            <li>
+              Designed a multi-branch n8n workflow that fetches topics, retrieves context via RAG
+              steps, and runs agentic generation/editing before publishing.
+            </li>
+            <li>
+              Connected Google Sheets/Docs as source-of-truth inputs and shipped outputs to Medium
+              and LinkedIn, cutting manual content-ops steps.
+            </li>
+            <li>
+              Structured branching and validation paths so failed or incomplete runs could be
+              inspected and re-run without rebuilding the whole flow.
+            </li>
+          </ul>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head">
+            <strong>AR-4U — WebAR / AR-as-a-Service</strong>
+            <span class="meta">Next.js · MERN · Three.js</span>
+          </div>
+          <p class="proj-desc">Browser-based AR platform for eCommerce and product visualization</p>
+          <ul>
+            <li>
+              Shipped multi-locale Next.js marketing site with SEO-focused pages and shareable
+              AR/QR viewer links for campaigns.
+            </li>
+            <li>
+              Built MERN customer panel for accounts and 3D model management; integrated Three.js
+              and Google model-viewer for interactive AR previews.
+            </li>
+          </ul>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head">
+            <strong>ReplyMyMail — AI Email &amp; Document Ops</strong>
+            <span class="meta">Next.js · Node · Python</span>
+          </div>
+          <p class="proj-desc">Product site + ops ecosystem for AI-assisted email and documents</p>
+          <ul>
+            <li>
+              Delivered EN/DE product website and backend/frontend systems for draft replies,
+              paperless email/doc management, OCR, and embeddings/search.
+            </li>
+            <li>
+              Supported document workflows and generation utilities so operators could process mail
+              and PDFs in one ecosystem instead of scattered tools.
+            </li>
+          </ul>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head">
+            <strong>Hayat Matrix Lab — Lab Management System</strong>
+            <span class="meta">React · Node · Prisma · Electron</span>
+          </div>
+          <p class="proj-desc">Web + desktop software for clinic lab operations and reporting</p>
+          <ul>
+            <li>
+              Developed monorepo APIs and React UI for daily lab workflows with Prisma/SQLite data
+              layer and PDF report generation.
+            </li>
+            <li>
+              Packaged Electron desktop builds for Mac/Windows, including seed/license scripts for
+              installable clinic deployments.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Education</h2>
+        <div class="edu-head">
+          <strong>Bachelor of Computer Science — Virtual University of Pakistan</strong>
+          <span class="meta">Sep 2024 – Present</span>
+        </div>
+        <p class="role">Swabi, Pakistan</p>
+      </section>
+
+   
+
+      <div class="page-footer">
+        <span>Muhammad Abrar · Software Engineer</span>
+        <span>Page 2 of 2</span>
+      </div>
+    </main>
+  </body>
+</html>
