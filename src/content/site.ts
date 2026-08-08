@@ -12,7 +12,7 @@ export const site = {
     intro:
       "Hey — I'm Abrar, a full-stack engineer who loves turning ideas into production systems. I care about craft, clarity, and software that stays reliable after launch.",
     paragraphs: [
-      "I've been writing code for 3+ years across frontend and backend—shipping APIs, React/Next.js apps, AI automation, and WebAR experiences for Speedy Brilliant (HK).",
+      "I've been writing code for 5+ years across frontend and backend—shipping APIs, React/Next.js apps, AI automation, and WebAR experiences for Speedy Brilliant (HK).",
       "My focus is products that balance clean design, solid architecture, and practical UX. I like tools that are lightweight and flexible, and I believe the best software stays out of the user's way.",
       "I currently build on AR-4U and ReplyMyMail, and I design agentic n8n workflows, RAG pipelines, and operational tools teams actually use.",
     ],

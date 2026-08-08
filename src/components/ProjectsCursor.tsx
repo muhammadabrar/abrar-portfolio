@@ -24,6 +24,7 @@ export function ProjectsCursor() {
       return Boolean(el?.closest?.("a.project-row"));
     };
 
+    
     const onMove = (e: MouseEvent) => {
       pos.x = e.clientX;
       pos.y = e.clientY;

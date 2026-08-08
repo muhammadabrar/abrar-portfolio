@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Project, ProjectCategory } from "@/content/projects";
 import { ProjectsCursor } from "@/components/ProjectsCursor";
+import { ProjectMedia } from "@/components/ProjectMedia";
 
 const filters: { id: "all" | "featured" | ProjectCategory; label: string }[] = [
   { id: "all", label: "All" },
@@ -67,9 +68,11 @@ export function ProjectGrid({
                 href={`/work/${project.slug}`}
                 className="project-row project-stack-card group"
               >
-                <div
+                <ProjectMedia
+                  project={project}
+                  variant="cover"
                   className="project-row-media"
-                  style={{ background: project.cover }}
+                  sizes="(max-width: 768px) 100vw, 640px"
                 />
                 <div className="project-row-body">
                   <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-[color:var(--muted)]">
@@ -113,9 +116,11 @@ export function ProjectGrid({
               className="group block"
               data-reveal
             >
-              <div
+              <ProjectMedia
+                project={project}
+                variant="thumb"
                 className="card-media"
-                style={{ background: project.cover }}
+                sizes="(max-width: 768px) 100vw, 420px"
               />
               <div className="mt-3">
                 <h3 className="text-base font-semibold tracking-tight">{project.name}</h3>

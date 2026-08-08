@@ -2,19 +2,25 @@ import Link from "next/link";
 import type { Project } from "@/content/projects";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
+import { ProjectMedia } from "@/components/ProjectMedia";
+import { ProjectGallery } from "@/components/ProjectGallery";
 
 export function CaseStudyDetail({ project }: { project: Project }) {
   const others = projects.filter((p) => p.slug !== project.slug).slice(0, 2);
+  const gallery = project.gallery ?? [];
 
   return (
     <article className="shell pb-8 pt-10">
-      <Link href="/#work" className="text-sm text-[color:var(--muted)] hover:text-[color:var(--ink)]">
-        ← Work
+      <Link href="/projects" className="text-sm text-[color:var(--muted)] hover:text-[color:var(--ink)]">
+        ← Projects
       </Link>
 
-      <div
+      <ProjectMedia
+        project={project}
+        variant="cover"
         className="card-media mt-6"
-        style={{ background: project.cover }}
+        sizes="(max-width: 768px) 100vw, 720px"
+        priority
       />
 
       <p className="mt-8 text-sm text-[color:var(--muted)]">{project.eyebrow}</p>
@@ -33,6 +39,8 @@ export function CaseStudyDetail({ project }: { project: Project }) {
           {project.liveLabel ?? "View live"}
         </a>
       )}
+
+      {gallery.length > 0 && <ProjectGallery shots={gallery} title="Product shots" />}
 
       <div className="mt-12 space-y-10">
         <section>
@@ -102,9 +110,11 @@ export function CaseStudyDetail({ project }: { project: Project }) {
           <div className="grid gap-5 sm:grid-cols-2">
             {others.map((p) => (
               <Link key={p.slug} href={`/work/${p.slug}`} className="group block">
-                <div
-                  className="card-media transition-transform duration-300 group-hover:scale-[1.015]"
-                  style={{ background: p.cover }}
+                <ProjectMedia
+                  project={p}
+                  variant="thumb"
+                  className="card-media"
+                  sizes="(max-width: 768px) 100vw, 360px"
                 />
                 <h3 className="mt-3 font-semibold">{p.name}</h3>
                 <p className="text-sm text-[color:var(--muted)]">{p.eyebrow}</p>

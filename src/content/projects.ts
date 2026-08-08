@@ -19,7 +19,11 @@ export type Project = {
   liveUrl?: string;
   liveLabel?: string;
   accent: string;
+  /** CSS gradient fallback when no cover image is set */
   cover: string;
+  coverImage?: string;
+  thumbnail?: string;
+  gallery?: { src: string; alt: string }[];
   featured?: boolean;
   category: ProjectCategory;
   subsystems?: ProjectSubsystem[];
@@ -49,6 +53,26 @@ export const projects: Project[] = [
     liveLabel: "Visit AR-4U",
     accent: "#111111",
     cover: "linear-gradient(145deg, #1a1a1a 0%, #4a4a4a 55%, #d4d4d4 100%)",
+    coverImage: "/images/projects/ar-4u/ar-4u-thumbnail.png",
+    thumbnail: "/images/projects/ar-4u/ar-4u-thumbnail.png",
+    gallery: [
+      {
+        src: "/images/projects/ar-4u/3d-view.png",
+        alt: "AR-4U product viewer with QR share panel",
+      },
+      {
+        src: "/images/projects/ar-4u/upload-model.png",
+        alt: "AR-4U admin upload and 3D reposition workflow",
+      },
+      {
+        src: "/images/projects/ar-4u/deca-series.png",
+        alt: "AR-4U Deca Series marketing page",
+      },
+      {
+        src: "/images/projects/ar-4u/models-library.png",
+        alt: "AR-4U 3D models library",
+      },
+    ],
     featured: true,
     category: "product",
   },
@@ -75,6 +99,18 @@ export const projects: Project[] = [
     liveLabel: "Visit ReplyMyMail",
     accent: "#2f2f2f",
     cover: "linear-gradient(160deg, #f4f1ea 0%, #c8c2b6 45%, #6b6560 100%)",
+    coverImage: "/images/projects/replymymail/replymymail-thumbnail.png",
+    thumbnail: "/images/projects/replymymail/replymymail-thumbnail.png",
+    gallery: [
+      {
+        src: "/images/projects/replymymail/product-site.png",
+        alt: "ReplyMyMail marketing site hero — AI powered email for fast teams",
+      },
+      {
+        src: "/images/projects/replymymail/dashboard.png",
+        alt: "ReplyMyMail admin dashboard with email and document metrics",
+      },
+    ],
     featured: true,
     category: "product",
     subsystems: [
@@ -117,6 +153,34 @@ export const projects: Project[] = [
       "One codebase serves clinic workflows on the web and as a desktop product.",
     accent: "#3d4a5c",
     cover: "linear-gradient(150deg, #e8eef5 0%, #8fa3b8 50%, #2c3642 100%)",
+    coverImage: "/images/projects/Hayat-matrix/Hayat-matrix-thumbnail.png",
+    thumbnail: "/images/projects/Hayat-matrix/Hayat-matrix-thumbnail.png",
+    gallery: [
+      {
+        src: "/images/projects/Hayat-matrix/dashboard.png",
+        alt: "Hayat Matrix Lab dashboard overview",
+      },
+      {
+        src: "/images/projects/Hayat-matrix/patients.png",
+        alt: "Patients list and management view",
+      },
+      {
+        src: "/images/projects/Hayat-matrix/patient-detail.png",
+        alt: "Patient detail screen",
+      },
+      {
+        src: "/images/projects/Hayat-matrix/doctors-commissions.png",
+        alt: "Doctors and commissions management",
+      },
+      {
+        src: "/images/projects/Hayat-matrix/doctor-detail.png",
+        alt: "Doctor detail screen",
+      },
+      {
+        src: "/images/projects/Hayat-matrix/test-result.png",
+        alt: "Test result and reporting view",
+      },
+    ],
     featured: true,
     category: "product",
   },
@@ -129,7 +193,7 @@ export const projects: Project[] = [
       "Multi-branch n8n workflow for topic research, RAG context, drafting, and publishing.",
     problem:
       "Content teams needed a repeatable pipeline from topic to multi-channel publish.",
-    role: "Designed and maintained the agentic automation flow at Futurenostic.",
+    role: "Designed and maintained the agentic automation flow at Speedy Brilliant (HK).",
     shipped: [
       "Topic fetch and RAG-style context retrieval",
       "Agentic generation and editing branches",
@@ -141,6 +205,8 @@ export const projects: Project[] = [
       "Cut manual content-ops steps with a branching, inspectable automation pipeline.",
     accent: "#222222",
     cover: "linear-gradient(135deg, #111111 0%, #333333 40%, #999999 100%)",
+    coverImage: "/images/projects/Mako-Content-Flow/Mako-Content-Flow-thumbnail.png",
+    thumbnail: "/images/projects/Mako-Content-Flow/Mako-Content-Flow-thumbnail.png",
     featured: true,
     category: "automation",
   },

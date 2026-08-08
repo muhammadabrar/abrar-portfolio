@@ -19,6 +19,7 @@ export function Testimonials({
   const quoteRef = useRef<HTMLQuoteElement>(null);
   const metaRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const peopleRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const drag = useRef({ startX: 0, delta: 0, dragging: false });
@@ -31,6 +32,28 @@ export function Testimonials({
     const next = (index + testimonials.length) % testimonials.length;
     setActive(next);
   };
+
+  useEffect(() => {
+    const scroller = peopleRef.current;
+    if (!scroller) return;
+    const selected = scroller.querySelector<HTMLElement>(
+      `[data-testimonial-index="${active}"]`,
+    );
+    if (!selected) return;
+
+    const scrollerLeft = scroller.getBoundingClientRect().left;
+    const selectedLeft = selected.getBoundingClientRect().left;
+    const offset =
+      selectedLeft -
+      scrollerLeft +
+      scroller.scrollLeft -
+      (scroller.clientWidth - selected.offsetWidth) / 2;
+
+    scroller.scrollTo({
+      left: Math.max(0, offset),
+      behavior: reduceMotion.current ? "auto" : "smooth",
+    });
+  }, [active]);
 
   const goNext = () => goTo(activeRef.current + 1);
   const goPrev = () => goTo(activeRef.current - 1);
@@ -144,6 +167,8 @@ export function Testimonials({
   }, []);
 
   const item = testimonials[active];
+  const quoteLength =
+    item.quote.length > 420 ? "long" : item.quote.length > 220 ? "mid" : "short";
 
   return (
     <section
@@ -199,11 +224,15 @@ export function Testimonials({
         aria-atomic="true"
       >
         
-        <div className="testimonial-body">
+        <div className="testimonial-body" data-quote-length={quoteLength}>
           <p className="testimonial-mark" aria-hidden>
             “
           </p>
-          <blockquote ref={quoteRef} className="testimonial-quote">
+          <blockquote
+            ref={quoteRef}
+            className="testimonial-quote"
+            data-quote-length={quoteLength}
+          >
             {item.quote}
           </blockquote>
           <div ref={metaRef} className="testimonial-meta">
@@ -216,10 +245,22 @@ export function Testimonials({
             </div>
             <div>
               <p className="font-semibold tracking-tight text-[color:var(--ink)]">
-                {item.name}
+                {item.linkedIn ? (
+                  <a
+                    href={item.linkedIn}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline-offset-4 hover:underline"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  item.name
+                )}
               </p>
               <p className="text-sm text-[color:var(--muted)]">
-                {item.role} · {item.company}
+                {item.role}
+                {item.company !== "Personal" ? ` · ${item.company}` : ""}
               </p>
             </div>
           </div>
@@ -234,37 +275,45 @@ export function Testimonials({
       </div>
 
       <div
+        ref={peopleRef}
         className="testimonial-people"
         data-testimonial-reveal
         role="tablist"
         aria-label="Choose a testimonial"
       >
-        {testimonials.map((person, index) => {
-          const selected = index === active;
-          return (
-            <button
-              key={person.id}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              aria-label={`${person.name}, ${person.role}`}
-              className={`testimonial-person ${selected ? "is-active" : ""}`}
-              onClick={() => goTo(index)}
-            >
-              <span
-                className="testimonial-person-avatar"
-                style={{ background: person.accent }}
-                aria-hidden
+        <div className="testimonial-people-track">
+          {testimonials.map((person, index) => {
+            const selected = index === active;
+            return (
+              <button
+                key={person.id}
+                type="button"
+                role="tab"
+                data-testimonial-index={index}
+                aria-selected={selected}
+                aria-label={`${person.name}, ${person.role}`}
+                className={`testimonial-person ${selected ? "is-active" : ""}`}
+                onClick={() => goTo(index)}
               >
-                {person.initials}
-              </span>
-              <span className="testimonial-person-copy">
-                <span className="testimonial-person-name">{person.name}</span>
-                <span className="testimonial-person-role">{person.company}</span>
-              </span>
-            </button>
-          );
-        })}
+                <span
+                  className="testimonial-person-avatar"
+                  style={{ background: person.accent }}
+                  aria-hidden
+                >
+                  {person.initials}
+                </span>
+                <span className="testimonial-person-copy">
+                  <span className="testimonial-person-name">{person.name}</span>
+                  <span className="testimonial-person-role">
+                    {person.company === "Personal"
+                      ? person.role
+                      : person.company}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
