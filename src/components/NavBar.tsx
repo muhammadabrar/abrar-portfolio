@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { site } from "@/content/site";
 import { useTheme } from "@/components/ThemeProvider";
@@ -11,10 +12,10 @@ function IconHome() {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={1.75}
       stroke="currentColor"
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       aria-hidden
     >
       <path
@@ -32,10 +33,10 @@ function IconProjects() {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={1.75}
       stroke="currentColor"
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       aria-hidden
     >
       <path
@@ -53,10 +54,10 @@ function IconAbout() {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={1.75}
       stroke="currentColor"
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       aria-hidden
     >
       <path
@@ -74,10 +75,10 @@ function IconWriting() {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={1.75}
       stroke="currentColor"
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       aria-hidden
     >
       <path
@@ -89,22 +90,14 @@ function IconWriting() {
   );
 }
 
-function IconMail() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M3.5 6.5A2 2 0 0 1 5.5 4.5h13a2 2 0 0 1 2 2v.4l-7.9 5.2a1.2 1.2 0 0 1-1.3 0L3.5 6.9v-.4Zm0 2.5 7.4 4.8a2.7 2.7 0 0 0 3 0L21.5 9v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V9Z" />
-    </svg>
-  );
-}
-
 function IconSun() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       className="text-amber-500"
       aria-hidden
     >
@@ -119,8 +112,8 @@ function IconMoon() {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       aria-hidden
     >
       <path
@@ -168,48 +161,61 @@ const primaryLinks: NavItem[] = [
 
 export function NavBar() {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, ready, toggleTheme } = useTheme();
+  const isDark = ready && theme === "dark";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="nav-bar sticky top-0 z-50 bg-[color:var(--bg)]/85 backdrop-blur-md">
-      <div className="nav-shell flex items-center justify-between gap-3 py-4">
-        <nav
-          className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto sm:gap-2"
-          aria-label="Primary"
-        >
-          {primaryLinks.map((item) => {
-            const active = item.match?.(pathname) ?? false;
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                aria-label={item.label}
-                className={`nav-chip ${active ? "nav-chip-active" : ""}`}
-              >
-                <span className="nav-chip-icon">{item.icon}</span>
-                <span className="nav-chip-label">{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
+    <header className={`nav-bar ${scrolled ? "nav-bar-scrolled" : ""}`}>
+      <div className="nav-shell">
+        <div className="nav-frame" data-nav-cluster>
+          <Link href="/" className="nav-brand" aria-label={`${site.firstName} home`}>
+            <span className="nav-brand-mark" aria-hidden>
+              ✦
+            </span>
+            <span className="nav-brand-text">{site.firstName}.</span>
+          </Link>
 
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="nav-chip nav-chip-icon-only"
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            <span className="nav-chip-icon">
-              {theme === "light" ? <IconSun /> : <IconMoon />}
-            </span>
-          </button>
-          <a href={`mailto:${site.email}`} className="nav-chip" aria-label="Email">
-            <span className="nav-chip-icon">
-              <IconMail />
-            </span>
-            <span className="nav-chip-label">Email</span>
-          </a>
+          <nav className="nav-primary" aria-label="Primary">
+            {primaryLinks.map((item) => {
+              const active = item.match?.(pathname) ?? false;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  aria-label={item.label}
+                  aria-current={active ? "page" : undefined}
+                  className={`nav-link ${active ? "nav-link-active" : ""}`}
+                >
+                  <span className="nav-link-icon">{item.icon}</span>
+                  <span className="nav-link-label">{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="nav-actions">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="nav-theme"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              <span suppressHydrationWarning>
+                {isDark ? <IconMoon /> : <IconSun />}
+              </span>
+            </button>
+            <a href={`mailto:${site.email}`} className="nav-cta">
+              Say Hi <span aria-hidden>👋</span>
+            </a>
+          </div>
         </div>
       </div>
     </header>

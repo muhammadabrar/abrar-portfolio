@@ -38,7 +38,7 @@ export function Hero() {
   }
 
   return (
-    <section ref={root} className="shell pt-10 pb-10 text-center sm:pt-14">
+    <section ref={root} data-hero-section className="shell pt-10 pb-10 text-center sm:pt-14">
       <div
         data-hero
         className="soft-float mx-auto mb-7 h-20 w-20 overflow-hidden rounded-full bg-[color:var(--soft)] ring-4 ring-[color:var(--surface)] shadow-sm"

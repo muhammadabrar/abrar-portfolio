@@ -19,17 +19,16 @@ export function RevealOnScroll({ children }: { children: React.ReactNode }) {
 
       const targets = gsap.utils.toArray<HTMLElement>(
         root.current.querySelectorAll(
-          "section, [data-reveal], .project-row, .writing-row, .nav-chip",
+          "section:not([data-hero-section]), [data-reveal], .project-row, .writing-row, [data-nav-cluster]",
         ),
       );
 
-      targets.forEach((el, i) => {
-        if (el.closest("header")) {
+      targets.forEach((el) => {
+        if (el.matches("[data-nav-cluster]")) {
           gsap.from(el, {
-            y: 10,
+            y: 12,
             opacity: 0,
-            duration: 0.5,
-            delay: 0.04 + i * 0.035,
+            duration: 0.55,
             ease: "power2.out",
           });
           return;

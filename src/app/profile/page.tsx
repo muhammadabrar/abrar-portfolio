@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
 import { getFeaturedProjects } from "@/content/projects";
 import { Stack } from "@/components/Stack";
 import { LatestWriting } from "@/components/LatestWriting";
 import { ExperienceSkills } from "@/components/ExperienceSkills";
+import { IntroVideo } from "@/components/IntroVideo";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -31,36 +31,9 @@ export default function ProfilePage() {
         </div>
         <p className="mt-5 text-sm text-[color:var(--muted)]">{site.about.education}</p>
         <p className="mt-1 text-sm text-[color:var(--muted)]">{site.location}</p>
-
-        <div className="relative mt-8 grid grid-cols-3 gap-3">
-          <div className="aspect-[3/4] overflow-hidden rounded-[1.1rem] bg-[color:var(--soft)]">
-            <Image
-              src="/images/abrar-avatar.png"
-              alt={site.name}
-              width={280}
-              height={360}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="aspect-[3/4] overflow-hidden rounded-[1.1rem] bg-[color:var(--soft)]">
-            <Image
-              src="/images/abrar-portrait.png"
-              alt=""
-              width={280}
-              height={360}
-              className="h-full w-full object-cover object-top"
-            />
-          </div>
-          <div
-            className="aspect-[3/4] overflow-hidden rounded-[1.1rem]"
-            style={{
-              background:
-                "linear-gradient(160deg, #ececec 0%, #cfcfcf 45%, #8a8a8a 100%)",
-            }}
-            aria-hidden
-          />
-        </div>
       </section>
+
+      <IntroVideo />
 
       <section className="mt-14 grid gap-10 sm:grid-cols-2">
         <div>

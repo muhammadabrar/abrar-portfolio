@@ -18,6 +18,16 @@ export const site = {
     ],
     education: "Bachelor in Computer Science · Virtual University of Pakistan",
   },
+  introVideo: {
+    title: "Intro video",
+    description:
+      "A short walkthrough of how I work — product thinking, full-stack delivery, and the systems I like to build.",
+    src: "/videos/intro.mp4",
+    poster: "/images/abrar-portrait.png",
+    /** Optional: set a YouTube ID and clear `src` to use an embed instead */
+    youtubeId: "",
+    durationSec: 90,
+  },
   favorites: {
     focus: [
       "WebAR & 3D product experiences",

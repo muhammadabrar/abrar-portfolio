@@ -56,48 +56,52 @@ export function ProjectGrid({
       )}
 
       {variant === "list" ? (
-        <div className="flex flex-col gap-12 sm:gap-16">
-          {visible.map((project) => (
-            <Link
+        <div className="project-stack">
+          {visible.map((project, index) => (
+            <div
               key={project.slug}
-              href={`/work/${project.slug}`}
-              className="project-row group"
-              data-reveal
+              className="project-stack-item"
+              style={{ zIndex: index + 1 }}
             >
-              <div
-                className="project-row-media"
-                style={{ background: project.cover }}
-              />
-              <div className="project-row-body">
-                <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-[color:var(--muted)]">
-                  <span>{project.eyebrow}</span>
-                  <span aria-hidden>·</span>
-                  <span className="capitalize">{project.category}</span>
+              <Link
+                href={`/work/${project.slug}`}
+                className="project-row project-stack-card group"
+              >
+                <div
+                  className="project-row-media"
+                  style={{ background: project.cover }}
+                />
+                <div className="project-row-body">
+                  <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-[color:var(--muted)]">
+                    <span>{project.eyebrow}</span>
+                    <span aria-hidden>·</span>
+                    <span className="capitalize">{project.category}</span>
+                  </div>
+                  <h3 className="mt-2 text-[1.65rem] font-semibold tracking-tight sm:text-[2rem]">
+                    {project.name}
+                  </h3>
+                  <p className="mt-3 text-[0.98rem] leading-relaxed text-[color:var(--muted)]">
+                    {project.summary}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink)]/80">
+                    {project.outcome}
+                  </p>
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {project.stack.slice(0, 5).map((tech) => (
+                      <li
+                        key={tech}
+                        className="rounded-full bg-[color:var(--soft)] px-2.5 py-1 text-xs font-medium text-[color:var(--muted)]"
+                      >
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-6 text-sm font-medium text-[color:var(--ink)] transition-transform duration-300 group-hover:translate-x-1">
+                    View case study →
+                  </p>
                 </div>
-                <h3 className="mt-2 text-[1.65rem] font-semibold tracking-tight sm:text-[2rem]">
-                  {project.name}
-                </h3>
-                <p className="mt-3 text-[0.98rem] leading-relaxed text-[color:var(--muted)]">
-                  {project.summary}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink)]/80">
-                  {project.outcome}
-                </p>
-                <ul className="mt-5 flex flex-wrap gap-2">
-                  {project.stack.slice(0, 5).map((tech) => (
-                    <li
-                      key={tech}
-                      className="rounded-full bg-[color:var(--soft)] px-2.5 py-1 text-xs font-medium text-[color:var(--muted)]"
-                    >
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-6 text-sm font-medium text-[color:var(--ink)] transition-transform duration-300 group-hover:translate-x-1">
-                  View case study →
-                </p>
-              </div>
-            </Link>
+              </Link>
+            </div>
           ))}
         </div>
       ) : (

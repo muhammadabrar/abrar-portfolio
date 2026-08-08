@@ -20,7 +20,7 @@ export default function ProjectsPage() {
         </p>
       </div>
 
-      <div className="mt-12">
+      <div className="mt-12 pb-8">
         <ProjectGrid projects={projects} showFilters variant="list" />
       </div>
     </div>

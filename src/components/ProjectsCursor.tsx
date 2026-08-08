@@ -4,38 +4,44 @@ import { useEffect, useRef, useState } from "react";
 
 export function ProjectsCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
-  const [hovering, setHovering] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduce) return;
 
-    setActive(true);
-    document.documentElement.classList.add("projects-cursor-on");
+    setEnabled(true);
 
     const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const cur = { x: pos.x, y: pos.y };
     let raf = 0;
-    let hot = false;
+    let overProject = false;
+
+    const isProjectTarget = (target: EventTarget | null) => {
+      const el = target as HTMLElement | null;
+      return Boolean(el?.closest?.("a.project-row"));
+    };
 
     const onMove = (e: MouseEvent) => {
       pos.x = e.clientX;
       pos.y = e.clientY;
-    };
-
-    const onOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      const next = Boolean(target?.closest("a.project-row, button"));
-      if (next !== hot) {
-        hot = next;
-        setHovering(next);
+      const next = isProjectTarget(e.target);
+      if (next !== overProject) {
+        overProject = next;
+        setVisible(next);
+        document.documentElement.classList.toggle("projects-cursor-on", next);
       }
     };
 
+    const onLeave = () => {
+      overProject = false;
+      setVisible(false);
+      document.documentElement.classList.remove("projects-cursor-on");
+    };
+
     const tick = () => {
-      // Laggy follow — slightly slow
       cur.x += (pos.x - cur.x) * 0.075;
       cur.y += (pos.y - cur.y) * 0.075;
       const el = dotRef.current;
@@ -46,23 +52,23 @@ export function ProjectsCursor() {
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseover", onOver, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
     raf = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseleave", onLeave);
       document.documentElement.classList.remove("projects-cursor-on");
     };
   }, []);
 
-  if (!active) return null;
+  if (!enabled) return null;
 
   return (
     <div
       ref={dotRef}
-      className={`projects-cursor ${hovering ? "projects-cursor-hot" : ""}`}
+      className={`projects-cursor ${visible ? "projects-cursor-visible" : ""}`}
       aria-hidden
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

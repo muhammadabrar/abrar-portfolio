@@ -3,6 +3,7 @@ import { SelectedWork } from "@/components/SelectedWork";
 import { Stack } from "@/components/Stack";
 import { About } from "@/components/About";
 import { ExperienceSkills } from "@/components/ExperienceSkills";
+import { Testimonials } from "@/components/Testimonials";
 import { LatestWriting } from "@/components/LatestWriting";
 import { ContactCTA } from "@/components/ContactCTA";
 
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Stack />
       <About />
       <ExperienceSkills />
+      <Testimonials />
       <LatestWriting />
       <ContactCTA />
     </>
