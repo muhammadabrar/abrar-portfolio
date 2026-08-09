@@ -3,10 +3,10 @@ export const site = {
   firstName: "Abrar",
   title: "Software Engineer",
   tagline: "Software engineer building AI products, WebAR, and systems for the web.",
-  email: "abrarmuhammad100@gmail.com",
-  phone: "+923178303217",
-  phoneDisplay: "0317 830 3217",
-  whatsapp: "https://wa.me/923178303217",
+  email: "muhammadabrar.work@gmail.com",
+  phone: "+923209843122",
+  phoneDisplay: "0320 984 3122",
+  whatsapp: "https://wa.me/923209843122",
   location: "Pakistan · Remote",
   about: {
     intro:

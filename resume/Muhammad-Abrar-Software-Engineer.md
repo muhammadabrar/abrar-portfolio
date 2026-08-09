@@ -1,7 +1,7 @@
 # Muhammad Abrar
 **Software Engineer · Full Stack · Agentic AI / Automation**
 
-Pakistan (Remote) · +92 317 830 3217 · abrarmuhammad100@gmail.com  
+Pakistan (Remote) · +92 320 984 3122 · muhammadabrar.work@gmail.com  
 Products: [AR-4U](https://ar-4u.com) · [ReplyMyMail](https://replymymail.com)
 
 ---
