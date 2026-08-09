@@ -33,7 +33,7 @@ export default function ProfilePage() {
         <p className="mt-1 text-sm text-[color:var(--muted)]">{site.location}</p>
       </section>
 
-      <IntroVideo />
+
 
       <section className="mt-14 grid gap-10 sm:grid-cols-2">
         <div>
