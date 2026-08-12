@@ -31,6 +31,45 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "abrar-sandbox",
+    name: "RAG Observatory",
+    shortName: "AbrarSandbox",
+    eyebrow: "AbrarSandbox · RAG",
+    summary:
+      "Hands-on beginner lab for real RAG — upload docs, watch Mistral embeddings land in Qdrant, then test answers with citations and quotas.",
+    problem:
+      "Most RAG demos are black boxes or fake animations. Beginners need a real pipeline they can see, limit-test, and verify with citations.",
+    role: "Designed and built an educational RAG sandbox in the portfolio (guest mode, Mistral, Qdrant).",
+    shipped: [
+      "Guest-only sandbox with per-user Qdrant collections",
+      "Real ingest pipeline: parse → chunk → Mistral embed → Qdrant",
+      "Playground with live retrieval audit, citations, and testing guide",
+      "Free-tier quotas + optional bring-your-own Mistral key",
+    ],
+    stack: ["Next.js", "Mistral", "Qdrant", "Prisma", "SQLite", "TypeScript"],
+    outcome:
+      "Visitors can experience and test a real RAG system without creating an account.",
+    liveUrl: "/abrar-sandbox/RAG/sources",
+    liveLabel: "Open RAG Observatory",
+    accent: "#2dd4bf",
+    cover:
+      "linear-gradient(145deg, #07080a 0%, #0c1a1a 40%, #134e4a 70%, #2dd4bf 100%)",
+    featured: true,
+    category: "product",
+    subsystems: [
+      {
+        name: "Ingestion Observatory",
+        description:
+          "Drag-and-drop sources with stage-by-stage parse, clean, chunk, and embed animation.",
+      },
+      {
+        name: "Query Audit Playground",
+        description:
+          "Chat plus live retrieval funnel, reranking leaderboard, and citation explainability.",
+      },
+    ],
+  },
+  {
     slug: "ar-4u",
     name: "AR-4U",
     shortName: "AR-4U",

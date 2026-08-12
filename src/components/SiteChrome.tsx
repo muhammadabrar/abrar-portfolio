@@ -1,11 +1,19 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { site } from "@/content/site";
 import { NavBar } from "@/components/NavBar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isSandbox = pathname?.startsWith("/abrar-sandbox") ?? false;
+
+  if (isSandbox) {
+    return <ThemeProvider>{children}</ThemeProvider>;
+  }
+
   return (
     <ThemeProvider>
       <RevealOnScroll>

@@ -32,8 +32,9 @@ export function CaseStudyDetail({ project }: { project: Project }) {
       {project.liveUrl && (
         <a
           href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          {...(project.liveUrl.startsWith("http")
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
           className="pill mt-6 inline-flex"
         >
           {project.liveLabel ?? "View live"}

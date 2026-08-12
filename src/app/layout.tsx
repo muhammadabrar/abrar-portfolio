@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Funnel_Sans } from "next/font/google";
+import Script from "next/script";
+import { Funnel_Sans, JetBrains_Mono } from "next/font/google";
 import { SiteChrome } from "@/components/SiteChrome";
 import "./globals.css";
 
@@ -7,6 +8,12 @@ const funnelSans = Funnel_Sans({
   variable: "--font-funnel-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://muhammadabrar.dev";
@@ -69,11 +76,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${funnelSans.variable} h-full`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
+    <html
+      lang="en"
+      className={`${funnelSans.variable} ${jetbrainsMono.variable} h-full`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col antialiased" suppressHydrationWarning>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <SiteChrome>{children}</SiteChrome>
       </body>
     </html>

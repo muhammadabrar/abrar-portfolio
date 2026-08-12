@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Guest {
+  id                 String     @id
+  createdAt          DateTime   @default(now())
+  uploadCount        Int        @default(0)
+  embeddingTokensUsed Int       @default(0)
+  dailyQueryCount    Int        @default(0)
+  dailyTokenCount    Int        @default(0)
+  dayKey             String     @default("")
+  collectionName     String     @unique
+  documents          Document[]
+  jobs               IngestJob[]
+}
+
+model Document {
+  id           String   @id @default(cuid())
+  guestId      String
+  guest        Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  name         String
+  kind         String
+  sizeBytes    Int
+  chunkCount   Int      @default(0)
+  status       String   @default("processing")
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  jobs         IngestJob[]
+
+  @@index([guestId])
+  @@index([expiresAt])
+}
+
+model IngestJob {
+  id         String   @id @default(cuid())
+  guestId    String
+  guest      Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: SetNull)
+  status     String   @default("queued")
+  stage      String   @default("upload")
+  progress   Int      @default(0)
+  payload    String   @default("{}")
+  error      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([guestId])
+  @@index([documentId])
+}
