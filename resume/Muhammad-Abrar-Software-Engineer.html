@@ -129,6 +129,13 @@
         font-size: 11pt;
       }
 
+      .proj-link {
+        margin-right: auto;
+        color: var(--accent);
+        font-size: 9pt;
+        text-decoration: none;
+      }
+
       .meta {
         color: var(--muted);
         white-space: nowrap;
@@ -233,10 +240,10 @@
           <a href="https://ar-4u.com">AR-4U</a>
         </p>
         <p class="summary">
-          Software Engineer with 3+ years shipping production web products and AI automation:
-          APIs, React/Next.js UIs, n8n agentic workflows, RAG pipelines, WebAR, and operational
-          systems. Experienced collaborating remotely with product teams under tight delivery
-          timelines.
+          Full Stack Software Engineer with 4+ years shipping production web products and AI
+          automation. Recently built two multi-app systems end to end: WellRun School (multi-tenant
+          school operations, NestJS/PostgreSQL/React) and Azam Construction (React Native
+          project, labour and finance app). Also experienced in n8n agentic workflows, RAG and WebAR.
         </p>
       </header>
 
@@ -244,20 +251,17 @@
         <h2>Technical Skills</h2>
         <dl class="skills-grid">
           <dt>Languages</dt>
-          <dd>JavaScript, TypeScript, Python, PHP, C++</dd>
+          <dd>TypeScript, JavaScript, Python, PHP, C++</dd>
           <dt>Frontend</dt>
-          <dd>React, Next.js, HTML5, CSS3, Tailwind CSS, Redux, Three.js, model-viewer</dd>
+          <dd>React, Next.js, React Native, Expo, Vite, Tailwind CSS, Redux, TanStack Query, Three.js</dd>
           <dt>Backend</dt>
-          <dd>Node.js, Express, FastAPI, Flask, Django, REST APIs, JWT auth</dd>
+          <dd>Node.js, NestJS, Express, FastAPI, Flask, Django, REST APIs, JWT auth, Zod</dd>
           <dt>Data</dt>
-          <dd>MongoDB, PostgreSQL, MySQL, SQLite, Redis, Prisma ORM</dd>
+          <dd>PostgreSQL, MongoDB, MySQL, SQLite, Redis, Prisma ORM, Mongoose, Qdrant</dd>
           <dt>AI / Automation</dt>
-          <dd>
-            n8n, RAG, Agentic AI, LLM integrations, OCR pipelines, embeddings/search, web
-            scraping, Selenium, BeautifulSoup
-          </dd>
-          <dt>Tools</dt>
-          <dd>Git, Strapi, Electron, Docker, AWS, Vercel, Netlify, Figma</dd>
+          <dd>Claude API, Mistral, RAG, Agentic AI, tool calling, n8n, OCR, embeddings, web scraping</dd>
+          <dt>Cloud / Tools</dt>
+          <dd>Cloudflare R2, Azure, AWS, Docker, nginx, PM2, Git, Turborepo, Vitest, Electron, Vercel</dd>
         </dl>
       </section>
 
@@ -276,8 +280,7 @@
               frontends, and UI improvements used by customers in production.
             </li>
             <li>
-              Improve performance and cost by optimizing API payloads, frontend rendering, database
-              access patterns, and SEO for marketing and product surfaces.
+              Improve performance and cost by optimizing API payloads, rendering, database access, and SEO.
             </li>
             <li>
               Build AI product features: LinkedIn comment generation, email-reply automation
@@ -288,8 +291,7 @@
               panels for 3D asset management on AR-4U.
             </li>
             <li>
-              Deliver web scraping and data pipelines (Python/Selenium) with admin tooling for lead
-              collection and content operations.
+              Deliver Python/Selenium scraping pipelines with admin tooling for lead collection.
             </li>
           </ul>
         </div>
@@ -335,22 +337,55 @@
 
         <div class="proj">
           <div class="proj-head">
-            <strong>n8n Content Creation Flow (Mako)</strong>
-            <span class="meta">n8n · RAG · Agentic AI</span>
+            <strong>WellRun School — School OS (Pakistan)</strong>
+            <a class="proj-link" href="https://console.wellrunsystem.com/">console.wellrunsystem.com</a>
+            <span class="meta">NestJS · PostgreSQL · React · Claude API</span>
           </div>
-          <p class="proj-desc">Agentic publishing pipeline for research → draft → distribute</p>
+          <p class="proj-desc">Multi-tenant platform: public school discovery, staff operations console, and parent app on one API</p>
           <ul>
             <li>
-              Designed a multi-branch n8n workflow that fetches topics, retrieves context via RAG
-              steps, and runs agentic generation/editing before publishing.
+              Built a pnpm/Turborepo monorepo of four apps (Next.js discovery site, React staff console, parent PWA, NestJS API) sharing types, design tokens and i18n packages.
             </li>
             <li>
-              Connected Google Sheets/Docs as source-of-truth inputs and shipped outputs to Medium
-              and LinkedIn, cutting manual content-ops steps.
+              Modeled 90+ Prisma/PostgreSQL entities across 35+ API modules: admissions, attendance, fee plans/invoices/receipts, payroll, exams and report cards, timetable, inventory, accounting vouchers, certificates.
             </li>
             <li>
-              Structured branching and validation paths so failed or incomplete runs could be
-              inspected and re-run without rebuilding the whole flow.
+              Shipped an English/Urdu (RTL) parent app with lockout-protected sign-in and per-child access scoping; files in private Cloudflare R2 with server-side image re-encoding and short-lived signed links.
+            </li>
+            <li>
+              Added an AI assistant (Anthropic SDK) with tool calling where proposed changes run only after the user confirms; deployed on an Azure VM with nginx, PM2 and Azure Postgres.
+            </li>
+          </ul>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head">
+            <strong>Azam Construction — Project, Labour &amp; Finance App</strong>
+            <span class="meta">React Native · Expo · Express · MongoDB · R2 · 2026</span>
+          </div>
+          <p class="proj-desc">Mobile app for a construction company to run projects, labour and finances, with a read-only client view</p>
+          <ul>
+            <li>
+              Built an Express 5 + MongoDB API and an Expo Router app (iOS/Android) with admin and client roles, where clients see only their assigned projects.
+            </li>
+            <li>
+              Implemented four contract types (with material, supervision, labour cost, service charges) with separate cost and client prices, so profit is tracked while clients never receive internal costs.
+            </li>
+            <li>
+              Built weekly attendance and payroll with advance deductions, locked paid weeks, numbered receipts shared as PDF/WhatsApp, plus project job-costing and company cash-book ledgers; pricing rules covered by automated tests.
+            </li>
+          </ul>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head">
+            <strong>RAG Observatory — Educational RAG Lab</strong>
+            <a class="proj-link" href="https://muhammadabrar.dev/abrar-sandbox/RAG/sources">muhammadabrar.dev</a>
+            <span class="meta">Next.js · Mistral · Qdrant · Prisma</span>
+          </div>
+          <ul>
+            <li>
+              Built a guest-mode sandbox with a real pipeline (parse, chunk, Mistral embed, Qdrant) and a playground showing live retrieval audit, reranking and citations, with per-user collections and free-tier quotas.
             </li>
           </ul>
         </div>
@@ -358,17 +393,12 @@
         <div class="proj">
           <div class="proj-head">
             <strong>AR-4U — WebAR / AR-as-a-Service</strong>
+            <a class="proj-link" href="https://ar-4u.com">ar-4u.com</a>
             <span class="meta">Next.js · MERN · Three.js</span>
           </div>
-          <p class="proj-desc">Browser-based AR platform for eCommerce and product visualization</p>
           <ul>
             <li>
-              Shipped multi-locale Next.js marketing site with SEO-focused pages and shareable
-              AR/QR viewer links for campaigns.
-            </li>
-            <li>
-              Built MERN customer panel for accounts and 3D model management; integrated Three.js
-              and Google model-viewer for interactive AR previews.
+              Shipped a multi-locale Next.js marketing site with SEO pages and shareable AR/QR viewer links; built the MERN customer panel for 3D model management with Three.js and model-viewer previews.
             </li>
           </ul>
         </div>
@@ -376,35 +406,25 @@
         <div class="proj">
           <div class="proj-head">
             <strong>ReplyMyMail — AI Email &amp; Document Ops</strong>
+            <a class="proj-link" href="https://replymymail.com">replymymail.com</a>
             <span class="meta">Next.js · Node · Python</span>
           </div>
-          <p class="proj-desc">Product site + ops ecosystem for AI-assisted email and documents</p>
           <ul>
             <li>
-              Delivered EN/DE product website and backend/frontend systems for draft replies,
-              paperless email/doc management, OCR, and embeddings/search.
-            </li>
-            <li>
-              Supported document workflows and generation utilities so operators could process mail
-              and PDFs in one ecosystem instead of scattered tools.
+              Delivered the EN/DE product site and systems for draft replies, paperless email/doc management, OCR and embeddings/search.
             </li>
           </ul>
         </div>
 
         <div class="proj">
           <div class="proj-head">
-            <strong>Hayat Matrix Lab — Lab Management System</strong>
+            <strong>Hayat Matrix — Lab Information System</strong>
+            <a class="proj-link" href="https://hayatmatrix.com">hayatmatrix.com</a>
             <span class="meta">React · Node · Prisma · Electron</span>
           </div>
-          <p class="proj-desc">Web + desktop software for clinic lab operations and reporting</p>
           <ul>
             <li>
-              Developed monorepo APIs and React UI for daily lab workflows with Prisma/SQLite data
-              layer and PDF report generation.
-            </li>
-            <li>
-              Packaged Electron desktop builds for Mac/Windows, including seed/license scripts for
-              installable clinic deployments.
+              Developed monorepo APIs and React UI for lab workflows with PDF reports; packaged Electron builds for Mac/Windows with seed/license scripts.
             </li>
           </ul>
         </div>

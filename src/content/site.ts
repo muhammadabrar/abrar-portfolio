@@ -15,6 +15,7 @@ export const site = {
       "I've been writing code for 5+ years across frontend and backend—shipping APIs, React/Next.js apps, AI automation, and WebAR experiences for Speedy Brilliant (HK).",
       "My focus is products that balance clean design, solid architecture, and practical UX. I like tools that are lightweight and flexible, and I believe the best software stays out of the user's way.",
       "I currently build on AR-4U and ReplyMyMail, and I design agentic n8n workflows, RAG pipelines, and operational tools teams actually use.",
+      "I'm also building WellRun School, an operating system for schools in Pakistan: a public school discovery site, a staff operations console, and an English/Urdu parent app, all on one NestJS and PostgreSQL backend.",
     ],
     education: "Bachelor in Computer Science · Virtual University of Pakistan",
   },
@@ -47,6 +48,10 @@ export const site = {
     ],
   },
   currentlyBuilding: [
+    {
+      name: "WellRun School",
+      description: "School operating system: discovery, staff console, parent app",
+    },
     {
       name: "ReplyMyMail ecosystem",
       description: "AI email replies, paperless docs, OCR & embeddings",

@@ -155,6 +155,7 @@ export function createIdleAudit(): QueryAuditState {
     streamingAnswer: "",
     fullAnswer: "",
     explainability: null,
+    groundedEvaluation: null,
     timeline: [],
   };
 }
@@ -318,6 +319,48 @@ export async function runQuerySimulation(
       },
     ],
   };
+
+  emit({
+    ...state,
+    phase: "evaluation",
+    groundedEvaluation: {
+      claims: [
+        {
+          id: "claim-1",
+          claim: "Germany revenue reached €142.6M in Q2 2025.",
+          verdict: "SUPPORTED",
+          confidence: 0.94,
+          evidenceChunkIds: ["Chunk 19"],
+          evidenceSources: ["Q2_Germany_Revenue.docx"],
+          reason: "Evidence states Germany revenue of €142.6M for Q2 2025.",
+        },
+        {
+          id: "claim-2",
+          claim: "Germany grew 18.4% year-over-year.",
+          verdict: "SUPPORTED",
+          confidence: 0.91,
+          evidenceChunkIds: ["Chunk 19"],
+          evidenceSources: ["Q2_Germany_Revenue.docx"],
+          reason: "Evidence cites 18.4% YoY growth for Germany.",
+        },
+        {
+          id: "claim-3",
+          claim: "The company has more than 50 employees in Germany.",
+          verdict: "NOT_SUPPORTED",
+          confidence: 0.72,
+          evidenceChunkIds: [],
+          evidenceSources: [],
+          reason: "Retrieved context does not mention employee headcount.",
+        },
+      ],
+      groundedness: 2 / 3,
+      contradictionRate: 0,
+      citationCoverage: 2 / 3,
+      unsupportedCount: 1,
+      contradictedCount: 0,
+    },
+    timeline: pushTimeline("Claim-level evaluation", 180),
+  });
 
   emit({
     ...state,

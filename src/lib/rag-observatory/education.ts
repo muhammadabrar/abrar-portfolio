@@ -111,13 +111,21 @@ export const STAGE_HELP = {
       "Grounding checks compare answer spans to evidence. Failed mapping = hallucination risk.",
     test: "Open citations. If a claim is not in the snippet, that is a grounding failure.",
   },
+  claimEval: {
+    title: "Claim-level evaluation",
+    plain:
+      "The answer is split into factual claims; each is judged against retrieved evidence only — supported, contradicted, or not supported.",
+    detail:
+      "This is grounded evaluation, not similarity to a golden answer. The judge does not see retrieval confidence scores, so it cannot rubber-stamp a pre-endorsed claim.",
+    test: "Invent a detail not in your PDF — expect NOT_SUPPORTED or CONTRADICTED on that claim.",
+  },
   evaluate: {
     title: "Evaluation & observability",
     plain:
       "After answers, production systems log latency, retrieval quality, and user feedback.",
     detail:
-      "Use faithfulness, relevance, and groundedness checks. The timing log here is your first observability surface.",
-    test: "Run in-doc and out-of-doc probes from the testing guide.",
+      "Claim groundedness, contradiction rate, and citation coverage beat a single vanity RAG score. The timing log shows where latency went.",
+    test: "Run in-doc and out-of-doc probes from the testing guide, then open Claim Analysis.",
   },
 } as const;
 
@@ -176,6 +184,7 @@ export const QUERY_PIPELINE = [
   { id: "context", label: "Context selection", help: "context" },
   { id: "generate", label: "LLM", help: "generate" },
   { id: "cite", label: "Citation / grounding", help: "cite" },
+  { id: "claimEval", label: "Claim evaluation", help: "claimEval" },
   { id: "answer", label: "Final answer", help: "evaluate" },
 ] as const;
 
@@ -262,6 +271,11 @@ export const TEST_GUIDE = [
     title: "Citation check",
     detail:
       "Open each citation. Every important number or claim should appear in a snippet.",
+  },
+  {
+    title: "Claim audit",
+    detail:
+      "Open Claim Analysis. Supported claims should link to chunks; invent a detail and expect NOT_SUPPORTED or CONTRADICTED.",
   },
   {
     title: "Ambiguous question",

@@ -3,6 +3,7 @@ import { searchChunks, scrollChunkPayloads } from "./qdrant";
 import { RAG_LIMITS } from "./config";
 import { estimateTokens } from "./parse";
 import { prisma } from "./db";
+import { evaluateGroundedness } from "./evaluate";
 
 export type QueryAuditEvent =
   | { type: "rewrite"; data: Record<string, unknown> }
@@ -11,6 +12,7 @@ export type QueryAuditEvent =
   | { type: "rerank"; data: Record<string, unknown> }
   | { type: "context"; data: Record<string, unknown> }
   | { type: "token"; data: { text: string } }
+  | { type: "evaluation"; data: Record<string, unknown> }
   | { type: "done"; data: Record<string, unknown> }
   | { type: "error"; data: { message: string } };
 
@@ -321,6 +323,14 @@ export async function* runRagQuery(opts: {
     source: string;
     compressed: boolean;
   }[] = [];
+  const evidenceForEval: {
+    id: string;
+    title: string;
+    tokens: number;
+    source: string;
+    compressed?: boolean;
+    text: string;
+  }[] = [];
 
   for (const c of reranked.slice(0, 6)) {
     const compressed = compressText(c.text, searchQuery, 900);
@@ -328,13 +338,15 @@ export async function* runRagQuery(opts: {
     if (used + tokens > RAG_LIMITS.maxContextTokensPerQuery) break;
     used += tokens;
     contextParts.push(`[${c.chunkId} | ${c.source}]\n${compressed}`);
-    contextChunks.push({
+    const meta = {
       id: c.chunkId,
       title: c.title,
       tokens,
       source: c.source,
       compressed: compressed.length < c.text.length,
-    });
+    };
+    contextChunks.push(meta);
+    evidenceForEval.push({ ...meta, text: compressed });
   }
 
   yield {
@@ -354,6 +366,18 @@ export async function* runRagQuery(opts: {
     const msg =
       "I couldn’t find grounded evidence in your uploaded documents after hybrid retrieval. Try another question or upload a file that contains the answer.";
     yield { type: "token", data: { text: msg } };
+    const groundedEvaluation = {
+      claims: [],
+      groundedness: 0,
+      contradictionRate: 0,
+      citationCoverage: 0,
+      unsupportedCount: 0,
+      contradictedCount: 0,
+      note: "No retrieved evidence to evaluate against.",
+      usageTokens: 0,
+    };
+    yield { type: "evaluation", data: groundedEvaluation };
+    timeline.push({ label: "Claim-level evaluation", durationMs: 5 });
     yield {
       type: "done",
       data: {
@@ -371,6 +395,7 @@ export async function* runRagQuery(opts: {
           ],
           citations: [],
         },
+        groundedEvaluation,
         usageTokens: estimateTokens(question) + estimateTokens(msg),
       },
     };
@@ -422,10 +447,23 @@ Never invent numbers, names, or dates not present in context.`;
   });
   timeline.push({ label: "Citation / grounding package", durationMs: 5 });
 
+  const tEval = Date.now();
+  const groundedEvaluation = await evaluateGroundedness({
+    apiKey,
+    answer,
+    evidence: evidenceForEval,
+  });
+  yield { type: "evaluation", data: groundedEvaluation };
+  timeline.push({
+    label: "Claim-level evaluation",
+    durationMs: Date.now() - tEval,
+  });
+
   const usageTokens =
     estimateTokens(system) +
     estimateTokens(userPrompt) +
-    estimateTokens(answer);
+    estimateTokens(answer) +
+    (groundedEvaluation.usageTokens ?? 0);
 
   if (!apiKey?.trim()) {
     await prisma.guest.update({
@@ -459,12 +497,14 @@ Never invent numbers, names, or dates not present in context.`;
           "Hybrid retrieval: Qdrant vectors + BM25-lite keywords (RRF fuse)",
           "Rerank + context compression within token budget",
           "Grounded LLM generation with citation anchors",
+          "Claim-level entailment vs retrieved evidence",
         ],
         citations: contextChunks.slice(0, 4).map((c) => ({
           text: c.title,
           source: `${c.id} · ${c.source}${c.compressed ? " · compressed" : ""}`,
         })),
       },
+      groundedEvaluation,
       usageTokens,
     },
   };

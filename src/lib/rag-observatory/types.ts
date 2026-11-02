@@ -191,6 +191,29 @@ export type Explainability = {
   citations: { text: string; source: string }[];
 };
 
+export type ClaimVerdict = "SUPPORTED" | "CONTRADICTED" | "NOT_SUPPORTED";
+
+export type ClaimEval = {
+  id: string;
+  claim: string;
+  verdict: ClaimVerdict;
+  confidence: number;
+  evidenceChunkIds: string[];
+  evidenceSources: string[];
+  reason: string;
+};
+
+export type GroundedEvaluation = {
+  claims: ClaimEval[];
+  groundedness: number;
+  contradictionRate: number;
+  citationCoverage: number;
+  unsupportedCount: number;
+  contradictedCount: number;
+  note?: string;
+  usageTokens?: number;
+};
+
 export type QueryAuditState = {
   phase:
     | "idle"
@@ -200,6 +223,7 @@ export type QueryAuditState = {
     | "rerank"
     | "context"
     | "generation"
+    | "evaluation"
     | "done";
   understanding: QueryUnderstanding | null;
   metadataFilters: string[];
@@ -214,6 +238,7 @@ export type QueryAuditState = {
   streamingAnswer: string;
   fullAnswer: string;
   explainability: Explainability | null;
+  groundedEvaluation: GroundedEvaluation | null;
   timeline: AuditEntry[];
 };
 

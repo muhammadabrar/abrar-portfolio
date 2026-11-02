@@ -158,6 +158,13 @@ export function PlaygroundExperience() {
                 phase: "generation",
                 streamingAnswer: answer,
               };
+            } else if (event.type === "evaluation") {
+              state = {
+                ...state,
+                phase: "evaluation",
+                groundedEvaluation:
+                  event.data as QueryAuditState["groundedEvaluation"],
+              };
             } else if (event.type === "done") {
               const timeline = (
                 (event.data.timeline as { label: string; durationMs: number }[]) ??
@@ -175,6 +182,10 @@ export function PlaygroundExperience() {
                 streamingAnswer: "",
                 explainability: event.data
                   .explainability as QueryAuditState["explainability"],
+                groundedEvaluation:
+                  (event.data
+                    .groundedEvaluation as QueryAuditState["groundedEvaluation"]) ??
+                  state.groundedEvaluation,
                 timeline,
               };
               answer = String(event.data.answer ?? answer);

@@ -70,6 +70,59 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "wellrun-school",
+    name: "WellRun School",
+    shortName: "WellRun School",
+    eyebrow: "School operating system",
+    summary:
+      "Multi-tenant school platform for Pakistan: public school discovery, a staff operations console, and a parent app on one API.",
+    problem:
+      "Schools run admissions, attendance, fees, payroll and exams across paper, spreadsheets and chat groups, and parents get little visibility.",
+    role: "Designed and built the full platform: monorepo, API, three frontends, deployment.",
+    shipped: [
+      "pnpm/Turborepo monorepo: Next.js discovery site, React staff console, parent PWA, NestJS API",
+      "90+ Prisma/PostgreSQL models across admissions, attendance, fees, payroll, exams, timetable, inventory and accounting",
+      "English/Urdu (RTL) parent app with lockout-protected sign-in and per-child access scoping",
+      "Private Cloudflare R2 storage with server-side image re-encoding and short-lived signed links",
+      "AI assistant (Anthropic SDK) with tool calling; proposed changes run only after the user confirms",
+      "Deployed on an Azure VM with nginx, PM2 and Azure Postgres",
+    ],
+    stack: [
+      "NestJS",
+      "PostgreSQL",
+      "Prisma",
+      "Next.js",
+      "React",
+      "Vite",
+      "TypeScript",
+      "Cloudflare R2",
+      "Claude API",
+    ],
+    outcome:
+      "One backend powers school discovery for parents and day-to-day operations for staff.",
+    liveUrl: "https://console.wellrunsystem.com/",
+    liveLabel: "Open WellRun Console",
+    accent: "#4642FF",
+    cover:
+      "linear-gradient(145deg, #16161d 0%, #1f1d4f 45%, #4642ff 80%, #7f66ff 100%)",
+    featured: true,
+    category: "product",
+    subsystems: [
+      {
+        name: "Discover",
+        description: "Mobile-first public site to browse and compare schools.",
+      },
+      {
+        name: "Console",
+        description: "Staff operations: students, attendance, fees, payroll, exams.",
+      },
+      {
+        name: "Parent app",
+        description: "English/Urdu PWA for results, fees and school notices.",
+      },
+    ],
+  },
+  {
     slug: "ar-4u",
     name: "AR-4U",
     shortName: "AR-4U",
@@ -190,6 +243,8 @@ export const projects: Project[] = [
     stack: ["React", "Vite", "Node.js", "Prisma", "SQLite", "Electron", "TypeScript"],
     outcome:
       "One codebase serves clinic workflows on the web and as a desktop product.",
+    liveUrl: "https://hayatmatrix.com",
+    liveLabel: "Visit Hayat Matrix",
     accent: "#3d4a5c",
     cover: "linear-gradient(150deg, #e8eef5 0%, #8fa3b8 50%, #2c3642 100%)",
     coverImage: "/images/projects/Hayat-matrix/Hayat-matrix-thumbnail.png",

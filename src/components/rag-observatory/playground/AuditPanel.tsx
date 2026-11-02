@@ -14,6 +14,7 @@ type StepId =
   | "context"
   | "generate"
   | "cite"
+  | "claimEval"
   | "timeline";
 
 function StepCard({
@@ -145,16 +146,23 @@ export function AuditPanel({ audit }: { audit: QueryAuditState }) {
       return;
     }
     if (audit.phase === "done") {
-      setOpenStep("cite");
+      setOpenStep(
+        audit.groundedEvaluation &&
+          (audit.groundedEvaluation.claims.length > 0 ||
+            audit.groundedEvaluation.note)
+          ? "claimEval"
+          : "cite",
+      );
       return;
     }
-    if (audit.phase === "generation") setOpenStep("generate");
+    if (audit.phase === "evaluation") setOpenStep("claimEval");
+    else if (audit.phase === "generation") setOpenStep("generate");
     else if (audit.phase === "context") setOpenStep("context");
     else if (audit.phase === "rerank") setOpenStep("rerank");
     else if (audit.phase === "hybrid") setOpenStep("hybrid");
     else if (audit.phase === "metadataFilter") setOpenStep("metadataFilter");
     else if (audit.phase === "rewrite") setOpenStep("rewrite");
-  }, [audit.phase]);
+  }, [audit.phase, audit.groundedEvaluation]);
 
   const pct = Math.min(
     100,
@@ -174,10 +182,12 @@ export function AuditPanel({ audit }: { audit: QueryAuditState }) {
   const hasContext = audit.contextChunks.length > 0;
   const hasGenerate =
     audit.phase === "generation" ||
+    audit.phase === "evaluation" ||
     audit.phase === "done" ||
     Boolean(audit.streamingAnswer) ||
     Boolean(audit.fullAnswer);
   const hasCite = Boolean(audit.explainability);
+  const hasClaimEval = Boolean(audit.groundedEvaluation);
 
   return (
     <div className="rag-panel-audit flex h-full min-h-[480px] flex-col overflow-hidden lg:min-h-0">
@@ -406,7 +416,11 @@ export function AuditPanel({ audit }: { audit: QueryAuditState }) {
           title="6. LLM generation"
           helpKey="generate"
           active={audit.phase === "generation"}
-          done={audit.phase === "done"}
+          done={
+            audit.phase === "evaluation" ||
+            audit.phase === "done" ||
+            Boolean(audit.fullAnswer)
+          }
           open={openStep === "generate"}
           onToggle={() => toggle("generate")}
           empty={!hasGenerate}
@@ -414,7 +428,7 @@ export function AuditPanel({ audit }: { audit: QueryAuditState }) {
           <p className="text-[12px] text-[var(--rag-muted)]">
             {audit.phase === "generation"
               ? "Writing in the teal chat panel — grounded only on the briefing above."
-              : "Finished — read the answer in chat, then open citations."}
+              : "Finished — read the answer in chat, then open claim analysis."}
           </p>
         </StepCard>
 
@@ -422,7 +436,7 @@ export function AuditPanel({ audit }: { audit: QueryAuditState }) {
           title="7. Citation / grounding"
           helpKey="cite"
           active={false}
-          done={hasCite}
+          done={hasCite && audit.phase !== "evaluation"}
           open={openStep === "cite"}
           onToggle={() => toggle("cite")}
           empty={!hasCite}
@@ -461,6 +475,113 @@ export function AuditPanel({ audit }: { audit: QueryAuditState }) {
                     </span>
                   </li>
                 ))}
+              </ul>
+            </div>
+          ) : null}
+        </StepCard>
+
+        <StepCard
+          title="8. Claim analysis"
+          helpKey="claimEval"
+          active={audit.phase === "evaluation"}
+          done={hasClaimEval && audit.phase !== "evaluation"}
+          open={openStep === "claimEval"}
+          onToggle={() => toggle("claimEval")}
+          empty={!hasClaimEval}
+        >
+          {audit.groundedEvaluation ? (
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {[
+                  [
+                    "Groundedness",
+                    `${Math.round(audit.groundedEvaluation.groundedness * 100)}%`,
+                  ],
+                  [
+                    "Citation cov.",
+                    `${Math.round(audit.groundedEvaluation.citationCoverage * 100)}%`,
+                  ],
+                  [
+                    "Contradictions",
+                    String(audit.groundedEvaluation.contradictedCount),
+                  ],
+                  [
+                    "Unsupported",
+                    String(audit.groundedEvaluation.unsupportedCount),
+                  ],
+                ].map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="rounded-lg bg-black/20 px-2.5 py-2"
+                  >
+                    <p className="text-[10px] uppercase text-[var(--rag-faint)]">
+                      {label}
+                    </p>
+                    <p className="rag-mono mt-0.5 text-lg text-sky-200">
+                      {value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              {audit.groundedEvaluation.note ? (
+                <p className="text-[12px] text-[var(--rag-muted)]">
+                  {audit.groundedEvaluation.note}
+                </p>
+              ) : null}
+              <ul className="space-y-2">
+                {audit.groundedEvaluation.claims.map((c) => {
+                  const tone =
+                    c.verdict === "SUPPORTED"
+                      ? "border-emerald-400/30 bg-emerald-500/10"
+                      : c.verdict === "CONTRADICTED"
+                        ? "border-rose-400/30 bg-rose-500/10"
+                        : "border-amber-400/30 bg-amber-500/10";
+                  const mark =
+                    c.verdict === "SUPPORTED"
+                      ? "✓"
+                      : c.verdict === "CONTRADICTED"
+                        ? "✕"
+                        : "⚠";
+                  return (
+                    <li
+                      key={c.id}
+                      className={`rounded-lg border px-2.5 py-2 text-[12px] ${tone}`}
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="rag-mono shrink-0 text-[11px]">
+                          {mark}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-[var(--rag-ink)]">
+                            {c.claim}
+                          </p>
+                          <p className="mt-1 rag-mono text-[10px] uppercase tracking-wide text-[var(--rag-faint)]">
+                            {c.verdict} ·{" "}
+                            {Math.round(c.confidence * 100)}%
+                          </p>
+                          {c.evidenceChunkIds.length > 0 ? (
+                            <p className="mt-1 text-[11px] text-[var(--rag-muted)]">
+                              Evidence:{" "}
+                              {c.evidenceChunkIds
+                                .map(
+                                  (id, i) =>
+                                    `${id}${c.evidenceSources[i] ? ` · ${c.evidenceSources[i]}` : ""}`,
+                                )
+                                .join("; ")}
+                            </p>
+                          ) : (
+                            <p className="mt-1 text-[11px] text-[var(--rag-faint)]">
+                              No supporting chunk linked
+                            </p>
+                          )}
+                          <p className="mt-1 text-[11px] text-[var(--rag-muted)]">
+                            {c.reason}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ) : null}
